@@ -84,6 +84,6 @@ public class LibraryService {
         if(studentId == null || studentId.trim().isEmpty()) {
             throw new SQLException("학번을 입력해주세요");
         }
-        return studentDAO.outhenticateStudent(studentId); // 브랜치 만들어야함
+        return studentDAO.authenticateStudent(studentId);
     }
 }

@@ -43,35 +43,21 @@ public class StudentDAO {
     }
 
     // 학생 ID로 학생 인증(로그인 용)
-    public Student outhenticateStudent(String studentId) throws SQLException {
-        // 학생이 정확한 학번을 입력하면 Student 객체가 만들어져서 리턴 됨
-        // 학생이 잘못된 학번을 입력하면 null 값을 반환함
-        // if return new Student();
-        String sql = "INSERT INTO students (name , student_id) values (?, ?) ";
-        try (Connection conn = DatabaseUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public Student authenticateStudent(String studentId) throws SQLException {
+        String sql = "SELECT * FROM students where student_id = ? ";
+        try(Connection conn = DatabaseUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, studentId);
-            ResultSet rs = pstmt.executeQuery();
-
-//         //   while (rs.next()) {
-//                Student studentDTO = new Student();
-//                studentDTO.setId(rs.getInt("id"));
-//                studentDTO.setName(rs.getString("name"));
-//                studentDTO.setStudentId(rs.getString("student_id"));
-//
-//                return studentDTO;
-//            }
-//
-            if (rs.next()) {
+            ResultSet rs  = pstmt.executeQuery();
+            if(rs.next()) {
                 Student studentDTO = new Student();
                 studentDTO.setId(rs.getInt("id"));
                 studentDTO.setName(rs.getString("name"));
-                studentDTO.setStudentId(rs.getString("student_id"));
-
+                studentDTO.setStudentId( rs.getString("student_id"));
                 return studentDTO;
             }
-            return null;
         }
+        return  null;
     }
 
 }
